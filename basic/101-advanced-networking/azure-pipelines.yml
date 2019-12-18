@@ -50,7 +50,7 @@ stages:
           location: 'West Europe'
           templateLocation: 'Linked artifact'
           csmFile: '$(System.DefaultWorkingDirectory)/**/101-advanced-networking/aks-template.json'
-          overrideParameters: '-clusterName "aksnw" -dnsPrefix "aksnw" -appInsightsLocation "West Europe" -clusterLocation "West Europe" -servicePrincipalClientId "$(ServicePrincipalId)" -servicePrincipalClientSecret "$(ServicePrincipalKey)" -agentCount 3 -agentVMSize Standard_DS2_v2 -kubernetesVersion 1.14.7 -omsLocation "West Europe" -omsWorkspaceName "aks101b60f" -httpApplicationRoutingEnabled false'
+          overrideParameters: '-resourceName "aksnw" -dnsPrefix "aksnw" -location "West Europe" -existingServicePrincipalObjectId "$(ServicePrincipalObjectId)" -existingServicePrincipalClientId "$(ServicePrincipalId)" -existingServicePrincipalClientSecret "$(ServicePrincipalKey)" -kubernetesVersion 1.14.7 -enableHttpApplicationRouting false -existingVirtualNetworkName "VNet1" -existingVirtualNetworkResourceGroup 'demo-aks-network' -existingSubnetName "Subnet1"'
           deploymentMode: 'Incremental'
           deploymentName: '$(Build.BuildId)'
           deploymentOutputs: 'deploymentOutputs'
