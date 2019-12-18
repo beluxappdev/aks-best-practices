@@ -29,7 +29,7 @@ steps:
     location: 'West Europe'
     templateLocation: 'Linked artifact'
     csmFile: '$(System.DefaultWorkingDirectory)/**/101-aks/aks-template.json'
-    overrideParameters: '-clusterName "aks101" -dnsPrefix "aks101" -appInsightsLocation "West Europe" -clusterLocation "West Europe" -servicePrincipalClientId "$(ServicePrincipalId)" -servicePrincipalClientSecret "$(ServicePrincipalKey)" -agentCount 3 -agentVMSize Standard_DS2_v2 -kubernetesVersion 1.14.6 -omsLocation "West Europe" -omsWorkspaceName "aks101b60f" -httpApplicationRoutingEnabled false'
+    overrideParameters: '-clusterName "aks101" -dnsPrefix "aks101" -appInsightsLocation "West Europe" -clusterLocation "West Europe" -servicePrincipalClientId "$(ServicePrincipalId)" -servicePrincipalClientSecret "$(ServicePrincipalKey)" -agentCount 3 -agentVMSize Standard_DS2_v2 -kubernetesVersion 1.14.7 -omsLocation "West Europe" -omsWorkspaceName "aks101b60f" -httpApplicationRoutingEnabled false'
     deploymentMode: 'Incremental'
     deploymentName: '$(Build.BuildId)'
     deploymentOutputs: 'deploymentOutputs'
