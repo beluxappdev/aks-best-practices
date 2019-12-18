@@ -10,26 +10,32 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
+  - stage: build
+    jobs: 
+      - job: build
+      steps: 
+      - script: echo Hello, world!
+        displayName: 'Run a one-line script'
+          
+  - stage: deploy
+    jobs:
+    - job: deploy-infra
+      steps:
+      - script: echo Hello, world!
+        displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-
-- task: AzureResourceManagerTemplateDeployment@3
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'Gitte Vermeiren Azure Internal Consumption(1)(49e23c68-dee0-4c5b-8c21-74acea0a2662)'
-    subscriptionId: '49e23c68-dee0-4c5b-8c21-74acea0a2662'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: 'demo-aks-101'
-    location: 'West Europe'
-    templateLocation: 'Linked artifact'
-    csmFile: '$(System.DefaultWorkingDirectory)/**/101-aks/aks-template.json'
-    overrideParameters: '-clusterName "aks101" -dnsPrefix "aks101" -appInsightsLocation "West Europe" -clusterLocation "West Europe" -servicePrincipalClientId "$(ServicePrincipalId)" -servicePrincipalClientSecret "$(ServicePrincipalKey)" -agentCount 3 -agentVMSize Standard_DS2_v2 -kubernetesVersion 1.14.7 -omsLocation "West Europe" -omsWorkspaceName "aks101b60f" -httpApplicationRoutingEnabled false'
-    deploymentMode: 'Incremental'
-    deploymentName: '$(Build.BuildId)'
-    deploymentOutputs: 'deploymentOutputs'
+      - task: AzureResourceManagerTemplateDeployment@3
+        inputs:
+          deploymentScope: 'Resource Group'
+          azureResourceManagerConnection: 'Gitte Vermeiren Azure Internal Consumption(1)(49e23c68-dee0-4c5b-8c21-74acea0a2662)'
+          subscriptionId: '49e23c68-dee0-4c5b-8c21-74acea0a2662'
+          action: 'Create Or Update Resource Group'
+          resourceGroupName: 'demo-aks-101'
+          location: 'West Europe'
+          templateLocation: 'Linked artifact'
+          csmFile: '$(System.DefaultWorkingDirectory)/**/101-aks/aks-template.json'
+          overrideParameters: '-clusterName "aks101" -dnsPrefix "aks101" -appInsightsLocation "West Europe" -clusterLocation "West Europe" -servicePrincipalClientId "$(ServicePrincipalId)" -servicePrincipalClientSecret "$(ServicePrincipalKey)" -agentCount 3 -agentVMSize Standard_DS2_v2 -kubernetesVersion 1.14.7 -omsLocation "West Europe" -omsWorkspaceName "aks101b60f" -httpApplicationRoutingEnabled false'
+          deploymentMode: 'Incremental'
+          deploymentName: '$(Build.BuildId)'
+          deploymentOutputs: 'deploymentOutputs'
