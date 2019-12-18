@@ -14,9 +14,9 @@ stages:
   - stage: build
     jobs: 
       - job: build
-      steps: 
-      - script: echo Hello, world!
-        displayName: 'Run a one-line script'
+        steps: 
+        - script: echo Hello, world!
+          displayName: 'Run a one-line script'
           
   - stage: deploy
     jobs:
