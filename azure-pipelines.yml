@@ -20,7 +20,8 @@ stages:
           
   - stage: deploy
     jobs:
-    - job: deploy-infra
+    - job: deploy
+      displayName: Deploy Infra
       steps:
       - script: echo Hello, world!
         displayName: 'Run a one-line script'
