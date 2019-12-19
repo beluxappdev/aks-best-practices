@@ -17,16 +17,18 @@ clustername=aks-ignite-azs
 vmsize=Standard_B2s
 k8s_version="1.14.7"
 
+#create the resource group
+az group create -n $rg -l $location
+
 #create the cluster
 $ az aks create \
     --resource-group $rg \
     --name $clustername \
     --kubernetes-version $k8s_version \
     --generate-ssh-keys \
-    --enable-vmss \
     --load-balancer-sku standard \
     --node-count 3 \
-    --node-zones 1 2 3 \
+    --zones 1 2 3 \
     --location $location
 
 #get the credintials 
