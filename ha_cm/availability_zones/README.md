@@ -12,10 +12,13 @@ AKS with AZs support requires the use of [Standard Load Balancer (SLB)](https://
 ```shell
 #define your variables
 location=westeurope
-rg=ignite
-clustername=aks-ignite-azs
+rg=demo-aks-az
+clustername=aks-azs
 vmsize=Standard_B2s
 k8s_version="1.14.7"
+
+#create the resource group
+az group create -n $rg -l $location
 
 #create the cluster
 $ az aks create \
@@ -23,10 +26,9 @@ $ az aks create \
     --name $clustername \
     --kubernetes-version $k8s_version \
     --generate-ssh-keys \
-    --enable-vmss \
     --load-balancer-sku standard \
     --node-count 3 \
-    --node-zones 1 2 3 \
+    --zones 1 2 3 \
     --location $location
 
 #get the credintials 
@@ -36,7 +38,7 @@ $ az aks get-credentials --resource-group $rg --name $clustername
 2. Verify the nodes are spread across AZs (you can remove the '-l agentpool=nodes1')
 
 ```shell
-$ kubectl describe nodes -l agentpool=nodes1 | grep -e "Name:" -e "failure-domain.beta.kubernetes.io/zone"
+$ kubectl describe nodes -l agentpool=nodepool1 | grep -e "Labels:" -e "failure-domain.beta.kubernetes.io/zone"
 Name:               aks-nodes1-14441868-vmss000000
                     failure-domain.beta.kubernetes.io/zone=westeurope-1
 Name:               aks-nodes1-14441868-vmss000001
@@ -44,7 +46,7 @@ Name:               aks-nodes1-14441868-vmss000001
 Name:               aks-nodes1-14441868-vmss000002
                     failure-domain.beta.kubernetes.io/zone=westeurope-3
 
-$ kubectl get nodes -l agentpool=nodes1 --show-labels
+$ kubectl get nodes --show-labels
 NAME                             STATUS   ROLES   AGE   VERSION   LABELS
 aks-nodes1-14441868-vmss000000   Ready    agent   44d   v1.14.7   agentpool=nodes1,beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=Standard_B2s,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=westeurope,**failure-domain.beta.kubernetes.io/zone=westeurope-1**,...
 aks-nodes1-14441868-vmss000001   Ready    agent   44d   v1.14.7   agentpool=nodes1,beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=Standard_B2s,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=westeurope,failure-domain.beta.kubernetes.io/zone=westeurope-2,...
